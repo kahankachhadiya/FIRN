@@ -20,9 +20,9 @@ Every expedition report, dataset, photograph and video becomes searchable, cited
 
 ## Demo video
 
-[![Watch the FIRN demo (29 s)](docs/assets/demo_poster.jpg)](FIRN_demo.mp4?raw=true)
+[![Watch the FIRN demo on YouTube (29 s)](docs/assets/demo_poster.jpg)](https://youtu.be/fyM2mMzESK4)
 
-**[▶ Watch the demo: FIRN_demo.mp4](FIRN_demo.mp4?raw=true)** (29 s, 1080p, 4 MB, with narration and captions; opens or downloads the video file)
+**[▶ Watch the demo on YouTube](https://youtu.be/fyM2mMzESK4)** (29 s, 1080p, with narration and captions) · [Download the MP4](FIRN_demo.mp4?raw=true)
 
 A question is asked in Hindi, FIRN answers with citations, and a click on **▶ 04:12** opens the exact moment in an expedition video.
 
