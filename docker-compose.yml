@@ -1,0 +1,142 @@
+# =============================================================================
+# RAG System Infrastructure Services
+#
+# The two FastAPI application servers are run directly (not containerized):
+#   Chat Pipeline:      python backend/chat_pipeline/scripts/run_api.py
+#                       → http://localhost:8000
+#   Ingestion Pipeline: python backend/ingestion_pipeline/scripts/run_ingestion_api.py
+#                       → http://localhost:8001
+# =============================================================================
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.0
+    container_name: RAG_elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./rag_db_data/elasticsearch:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - rag_network
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: RAG_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./rag_db_data/qdrant:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "sh", "-c", "timeout 3 bash -c '</dev/tcp/localhost/6333' 2>/dev/null"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - rag_network
+
+  falkordb:
+    image: falkordb/falkordb:latest
+    container_name: RAG_falkordb
+    ports:
+      - "6380:6379"  # FalkorDB database endpoint
+      - "3000:3000"  # FalkorDB Browser UI
+    volumes:
+      - ./rag_db_data/falkor:/var/lib/falkordb/data
+    environment:
+      - REDIS_ARGS=--appendonly yes --appendfsync everysec
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "6379", "ping"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - rag_network
+
+  redis-broker:
+    image: redis:alpine
+    container_name: RAG_redis-broker
+    ports:
+      - "6381:6379"
+    command: redis-server --save "" --appendonly no
+    restart: unless-stopped
+    networks:
+      - rag_network
+
+  # Unified Knowledge Graph Service
+  # Consolidates embedding, classification, and reranking into a single container
+  model-service:
+    build:
+      context: .
+      dockerfile: model_service/Dockerfile
+    image: model-service:v1
+    container_name: RAG_model-service
+    depends_on:
+      - redis-broker
+    ports:
+      - "7997:7997"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128,expandable_segments:True
+      - REDIS_HOST=redis-broker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+        limits:
+          memory: 12G
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7997/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    networks:
+      - rag_network
+
+networks:
+  rag_network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: rag_bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+
+volumes:
+  # Database persistence volumes
+  elasticsearch_data:
+    driver: local
+  
+  qdrant_data:
+    driver: local
+  
+  falkor_data:
+    driver: local
+  
+  # Unified service model cache
+  unified_models:
+    driver: local

@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+pydantic>=2.0
+pydantic-settings
+python-dotenv
+httpx
+requests
+websockets
+python-multipart
+aiohttp
+elasticsearch
+qdrant-client
+falkordb
+pyyaml
+jsonschema

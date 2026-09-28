@@ -1,0 +1,109 @@
+/* FIRN — "Ice-light" design system (fonts are bundled locally, no CDN) */
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 400; font-display: swap; src: url('/fonts/PlusJakartaSans-400.ttf') format('truetype'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 500; font-display: swap; src: url('/fonts/PlusJakartaSans-500.ttf') format('truetype'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 600; font-display: swap; src: url('/fonts/PlusJakartaSans-600.ttf') format('truetype'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-display: swap; src: url('/fonts/PlusJakartaSans-700.ttf') format('truetype'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-display: swap; src: url('/fonts/PlusJakartaSans-800.ttf') format('truetype'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 500; font-display: swap; src: url('/fonts/JetBrainsMono-500.ttf') format('truetype'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 700; font-display: swap; src: url('/fonts/JetBrainsMono-700.ttf') format('truetype'); }
+@font-face { font-family: 'Noto Sans Devanagari'; font-weight: 400; font-display: swap; src: url('/fonts/NotoSansDevanagari-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Noto Sans Devanagari'; font-weight: 500; font-display: swap; src: url('/fonts/NotoSansDevanagari-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Noto Sans Devanagari'; font-weight: 600; font-display: swap; src: url('/fonts/NotoSansDevanagari-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Noto Sans Devanagari'; font-weight: 700; font-display: swap; src: url('/fonts/NotoSansDevanagari-Bold.ttf') format('truetype'); }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Ice-light surfaces */
+    --background: 204 45% 95%;          /* #EEF4F8 */
+    --foreground: 207 55% 13%;          /* #0F2233 ink */
+    --card: 0 0% 100%;
+    --card-foreground: 207 55% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 55% 13%;
+
+    /* Accent meanings (same as the deck):
+       cyan = archive/data · violet = AI · green = verified/delivered · orange = problem/conflict */
+    --primary: 194 89% 38%;             /* glacier cyan #0B8DB5 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 205 38% 93%;
+    --secondary-foreground: 207 55% 13%;
+    --muted: 205 33% 94%;
+    --muted-foreground: 208 21% 34%;    /* #44586A */
+    --accent: 243 61% 59%;              /* aurora violet #5B55D6 */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 22 86% 53%;          /* expedition orange #EE6A1F */
+    --destructive-foreground: 0 0% 100%;
+    --success: 158 75% 36%;             /* aurora green #17A06F */
+    --warning: 41 90% 45%;
+
+    --border: 205 30% 88%;              /* #D6E2EB */
+    --input: 205 30% 86%;
+    --ring: 194 89% 38%;
+    --radius: 0.875rem;
+
+    --ink-3: 207 12% 54%;               /* #7A8C9B */
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 208 21% 34%;
+    --sidebar-primary: 207 55% 13%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 204 45% 95%;
+    --sidebar-accent-foreground: 207 55% 13%;
+    --sidebar-border: 205 30% 90%;
+    --sidebar-ring: 194 89% 38%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html, body, #root { height: 100%; }
+  body {
+    @apply text-foreground antialiased;
+    background: linear-gradient(160deg, #F6F9FC 0%, #EDF3F8 55%, #E6EFF5 100%) fixed;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', system-ui, sans-serif;
+    font-feature-settings: 'ss01';
+  }
+  code, pre, .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  :lang(hi), .deva { font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; }
+}
+
+@layer components {
+  .panel {
+    @apply bg-card border rounded-2xl;
+    border-color: #E0E9EF;
+    box-shadow: 0 8px 24px rgba(15, 34, 51, 0.05);
+  }
+  .label-mono {
+    @apply font-mono text-[11px] font-bold uppercase;
+    letter-spacing: 0.14em;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 h-7 text-[12.5px] font-semibold whitespace-nowrap;
+  }
+}
+
+@layer utilities {
+  .text-ink-3 { color: hsl(var(--ink-3)); }
+  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #CBD8E2; border-radius: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+}
+
+/* Answer text */
+.answer p { margin: 0 0 0.75rem; line-height: 1.7; }
+.answer p:last-child { margin-bottom: 0; }
+.answer ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 0.75rem; }
+.answer li { margin: 0.2rem 0; line-height: 1.6; }
+.answer strong { font-weight: 700; }
+
+.streaming-cursor::after {
+  content: '';
+  display: inline-block; width: 7px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em;
+  background: hsl(var(--primary)); border-radius: 2px;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink { to { visibility: hidden; } }

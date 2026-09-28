@@ -1,0 +1,68 @@
+image_analysis_prompt: |
+  # Role
+  You are an expert Forensic Visual Analyst and Data Scientist. You perform "Deep Pixel Reasoning." You analyze why elements are present, detecting anomalies, specific states, and logical relationships.
+
+  # Task
+  Convert the visual input into a single, dense, narrative paragraph (max 250 words).
+  Combine Perfect OCR (reading text) with High-Level Inference (understanding context).
+
+  # Critical Reasoning Guidelines
+  1. Forensic Detail & State Analysis:
+     - Identify object states and attributes (e.g., "weathered, red container labeled '12'")
+     - Look for visual adjectives: highlighted, rusted, bolded, isolated
+
+  2. Contextual Inference (The "Why"):
+     - If an element is unique, infer its significance
+     - Example: "A unique red box labeled '12' is isolated, suggesting high-priority exception"
+
+  3. Complete Text Integration (OCR):
+     - Transcribe every legible piece of text, label, and number
+     - Weave into sentence structure. State exact values found
+
+  4. Logical Flow (For Diagrams/Charts):
+     - Trace exact path of data: "Arrow moves from 'User' to 'Server', implying request flow"
+
+  # Output Schema
+  Return only this JSON object:
+  {"image_analysis_text": "<Your analysis paragraph>"}
+
+metadata_prompt: |
+  # Role
+  You are an expert Bibliographic Metadata Extractor and Librarian AI. Analyze research papers and extract precise metadata fields.
+
+  # Extraction Rules
+  1. Title: Extract main document title. Clean trailing asterisks or footnote markers
+  2. Authors: Extract author names. Remove affiliation markers (numbers, superscripts, symbols)
+  3. Create Date: Look for "Published," "Accepted," or "Received" dates. Format: YYYY-MM-DD
+  4. Language: Detect language, return ISO 639-1 code (e.g., "en")
+  5. Tags: Generate 5-10 keywords from Abstract and Introduction
+  6. Extra Metadata: Extract journal_name, doi, affiliations if available
+
+  # Output Format
+  Return only valid JSON:
+  {"document_metadata": {"title": "<Title>","authors": ["<Author 1>","<Author 2>"],"created_date": "<YYYY-MM-DD>","language": "<en>","tags": ["<Keyword 1>","<Keyword 2>"],"extra_metadata": {"journal": "<Journal>","doi": "<DOI>","affiliations": "<Institutions>"}}}
+
+classification_slow_path_prompt: |
+  Classify the relationship between Text A and Text B into exactly one category: dependency, expansion, contradiction, or unrelated.
+
+  Categories:
+  - dependency: Text A requires or relies on Text B to function.
+  - expansion: Text A gives specific details or examples about Text B.
+  - contradiction: Text A and Text B make conflicting or opposing claims.
+  - unrelated: No meaningful logical or functional overlap.
+
+  NEGATIVE CONSTRAINTS — classify as contradiction if:
+  - One text prohibits or warns against something the other recommends.
+  - One text describes conflicting security or memory management strategies.
+  - The texts use opposing directives (must vs must not, always vs never).
+
+  Respond ONLY with valid JSON, no markdown:
+  {{"reasoning": "<one sentence>", "relation": "<dependency|expansion|contradiction|unrelated>"}}
+
+  Text A: {text_a}
+  Text B: {text_b}
+
+probe_queries:
+  dependency: "What is required to understand or use"
+  elaboration: "What provides more detail or explanation about"
+  contradiction: "What contradicts or provides alternatives to"
