@@ -20,9 +20,9 @@ Every expedition report, dataset, photograph and video becomes searchable, cited
 
 ## Demo video
 
-[![Watch the FIRN demo on YouTube (29 s)](docs/assets/demo_poster.jpg)](https://youtu.be/fyM2mMzESK4)
+[![Watch the FIRN demo on YouTube (29 s)](docs/assets/demo_poster.jpg)](https://youtu.be/j6kxxLhTBxM)
 
-**[▶ Watch the demo on YouTube](https://youtu.be/fyM2mMzESK4)** (29 s, 1080p, with narration and captions) · [Download the MP4](FIRN_demo.mp4?raw=true)
+**[▶ Watch the demo on YouTube](https://youtu.be/j6kxxLhTBxM)** (29 s, 1080p, with narration and captions) · [Download the MP4](FIRN_demo.mp4?raw=true)
 
 A question is asked in Hindi, FIRN answers with citations, and a click on **▶ 04:12** opens the exact moment in an expedition video.
 
@@ -45,7 +45,7 @@ A question is asked in Hindi, FIRN answers with citations, and a click on **▶ 
 
 ### Why it matters
 
-- **45** Indian Antarctic expeditions since 1981, but only the scientific reports of **expeditions 1–24** are linked online, from a server on a bare IP address.
+- **45** Indian Antarctic expeditions since 1981, but NCPOR's online report archive, a server on a bare IP address, **stops at the 30th expedition**. The last 15 expeditions have no report online.
 - NCPOR's outreach page was last updated in **2016**, and its expedition updates stop at the 42nd expedition (2022).
 - Reports, datasets, photos and videos sit on **6–7 separate systems** that can't be searched together, and no one can search *inside* a video.
 
