@@ -94,21 +94,6 @@ Shot detection → novelty filter → vision + speech + OCR → record
 
 ---
 
-## Features and status
-
-| Feature | Status |
-|---|---|
-| Ask: cited answers, Hindi and English, citations for document passages and video moments | ✅ Prototype UI (demo mode) · ✅ retrieval engine |
-| Hybrid retrieval: vector + keyword + evidence graph + reranker | ✅ Built |
-| Document, audio and image ingestion (Docling, Whisper, vision model) | ✅ Built |
-| Video pipeline (shots, novelty filter, per-shot vision model call) | 🚧 In progress |
-| Timestamps stored end to end (ingest → retrieval → UI deep links) | 🚧 In progress |
-| Archive, Ingest, Outreach Studio and Learn screens | 🗓 Planned (in navigation) |
-| Review queue, AI labels (IT Rules 2026), C2PA content credentials | 🗓 Planned |
-| 22-language translation (IndicTrans2 / Bhashini), FAIR export (DataCite, schema.org) | 🗓 Planned |
-
----
-
 ## Tech stack
 
 | Layer | Technology |
